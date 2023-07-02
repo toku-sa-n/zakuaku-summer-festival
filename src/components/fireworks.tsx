@@ -3,7 +3,7 @@ import p5Types from "p5";
 
 export default function Fireworks() {
     const Sketch = dynamic(
-        import("react-p5").then((mod) => mod.default),
+        () => import("react-p5").then((mod) => mod.default),
         { ssr: false }
     );
 
