@@ -1,4 +1,5 @@
-import Image from "next/image";
+"use client";
+
 import Fireworks from "@/components/fireworks";
 
 export default function Home() {
