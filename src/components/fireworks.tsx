@@ -53,6 +53,8 @@ export default function Fireworks() {
 class Particle {
     private coordInPixels: Vector2d;
     private velocityInPixelsPerSeconds: Vector2d;
+    private color: [number, number, number];
+    private size: number;
 
     constructor(
         srcCoordInPixels: Vector2d,
@@ -69,6 +71,14 @@ class Particle {
                     arriveDstInSeconds) /
                 (2 * arriveDstInSeconds)
         );
+
+        this.color = [
+            Math.random() * 255,
+            Math.random() * 255,
+            Math.random() * 255,
+        ];
+
+        this.size = Math.random() * 10 + 5;
     }
 
     update() {
@@ -84,7 +94,13 @@ class Particle {
     }
 
     draw(p5: p5Types) {
-        p5.ellipse(this.coordInPixels.x, this.coordInPixels.y, 10, 10);
+        p5.fill(p5.color(this.color[0], this.color[1], this.color[2]));
+        p5.ellipse(
+            this.coordInPixels.x,
+            this.coordInPixels.y,
+            this.size,
+            this.size
+        );
     }
 }
 
