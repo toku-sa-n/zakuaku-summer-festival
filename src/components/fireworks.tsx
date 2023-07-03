@@ -32,7 +32,9 @@ export default function Fireworks() {
         firework.draw(p5);
 
         if (!firework.visible()) {
-            firework = new ExplodingFirework(p5);
+            firework = new ExplodingFirework(
+                new Vector2d(p5.width / 2, p5.height / 2)
+            );
         }
     }
 
