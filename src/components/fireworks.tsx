@@ -41,6 +41,12 @@ class ExplodingFirework {
     private particles: Particle[];
 
     constructor(p5: p5Types) {
+        const color: [number, number, number] = [
+            Math.random() * 100 + 155,
+            Math.random() * 100 + 155,
+            Math.random() * 100 + 155,
+        ];
+
         this.particles = Array.from(Array(300), () => {
             let x = Math.random() * 1000 - 500;
             let y = Math.random() * 1000 - 500;
@@ -52,7 +58,8 @@ class ExplodingFirework {
                 return new Particle(
                     new Vector2d(p5.width / 2, p5.height / 2),
                     new Vector2d(v.x + p5.width / 2, v.y + p5.height / 2),
-                    1
+                    1,
+                    color
                 );
             });
     }
@@ -87,7 +94,8 @@ class Particle {
     constructor(
         srcCoordInPixels: Vector2d,
         dstCoordInPixels: Vector2d,
-        arriveDstInSeconds: number
+        arriveDstInSeconds: number,
+        color: [number, number, number]
     ) {
         this.coordInPixels = srcCoordInPixels;
         this.velocityInPixelsPerSeconds = new Vector2d(
@@ -100,11 +108,7 @@ class Particle {
                 (2 * arriveDstInSeconds)
         );
 
-        this.color = [
-            Math.random() * 255,
-            Math.random() * 255,
-            Math.random() * 255,
-        ];
+        this.color = color;
 
         this.size = Math.random() * 10 + 5;
         this.initialSize = this.size;
