@@ -1,7 +1,8 @@
 import dynamic from "next/dynamic";
 import p5Types from "p5";
 
-const fps: number = 60 as const;
+const fps = 60 as const;
+const gravityInPixelsPerSecondsSquad = 98 as const;
 
 export default function Fireworks() {
     const Sketch = dynamic(
@@ -15,7 +16,11 @@ export default function Fireworks() {
         p5.createCanvas(p5.windowWidth, p5.windowHeight);
         p5.frameRate(fps);
 
-        particle = new Particle(new Vector2d(p5.width / 2, p5.height / 2));
+        particle = new Particle(
+            new Vector2d(p5.width / 2, p5.height / 2),
+            new Vector2d(p5.width / 2 + 500, p5.height / 2),
+            10
+        );
     }
 
     function windowResized(p5: p5Types) {
@@ -34,19 +39,40 @@ export default function Fireworks() {
 }
 
 class Particle {
-    private coord: Vector2d;
+    private coordInPixels: Vector2d;
+    private velocityInPixelsPerSeconds: Vector2d;
 
-    constructor(coord: Vector2d) {
-        this.coord = coord;
+    constructor(
+        srcCoordInPixels: Vector2d,
+        dstCoordInPixels: Vector2d,
+        arriveDstInSeconds: number
+    ) {
+        this.coordInPixels = srcCoordInPixels;
+        this.velocityInPixelsPerSeconds = new Vector2d(
+            (dstCoordInPixels.x - srcCoordInPixels.x) / arriveDstInSeconds,
+            (2 * srcCoordInPixels.y -
+                2 * dstCoordInPixels.y -
+                gravityInPixelsPerSecondsSquad *
+                    arriveDstInSeconds *
+                    arriveDstInSeconds) /
+                (2 * arriveDstInSeconds)
+        );
     }
 
     update() {
-        this.coord.x += 1;
-        this.coord.y += 1;
+        const frameInSecond = 1 / fps;
+
+        this.coordInPixels.x +=
+            this.velocityInPixelsPerSeconds.x * frameInSecond;
+        this.coordInPixels.y +=
+            this.velocityInPixelsPerSeconds.y * frameInSecond;
+
+        this.velocityInPixelsPerSeconds.y +=
+            gravityInPixelsPerSecondsSquad * frameInSecond;
     }
 
     draw(p5: p5Types) {
-        p5.ellipse(this.coord.x, this.coord.y, 10, 10);
+        p5.ellipse(this.coordInPixels.x, this.coordInPixels.y, 10, 10);
     }
 }
 
