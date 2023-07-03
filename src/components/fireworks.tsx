@@ -8,12 +8,10 @@ export default function Fireworks() {
     );
 
     function setup(p5: p5Types, canvasParentRef: Element) {
-        p5.createCanvas(100, 100);
+        p5.createCanvas(p5.windowWidth, p5.windowHeight);
     }
 
-    function draw(p5: p5Types) {
-        p5.background(100, 100, 100);
-    }
+    function draw(p5: p5Types) {}
 
     return <Sketch setup={setup} draw={draw} />;
 }
