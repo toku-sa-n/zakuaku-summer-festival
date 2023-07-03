@@ -25,6 +25,8 @@ export default function Fireworks() {
     function draw(p5: p5Types) {
         p5.clear();
 
+        particle.update();
+
         particle.draw(p5);
     }
 
@@ -38,6 +40,11 @@ class Particle {
     constructor(x: number, y: number) {
         this.x = x;
         this.y = y;
+    }
+
+    update() {
+        this.x += 1;
+        this.y += 1;
     }
 
     draw(p5: p5Types) {
