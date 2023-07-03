@@ -10,15 +10,12 @@ export default function Fireworks() {
         { ssr: false }
     );
 
-    let firework: ExplodingFirework;
+    let fireworks: ExplodingFirework[] = [];
+    let nextFireworkInFrames = 0;
 
     function setup(p5: p5Types, canvasParentRef: Element) {
         p5.createCanvas(p5.windowWidth, p5.windowHeight);
         p5.frameRate(fps);
-
-        firework = new ExplodingFirework(
-            new Vector2d(p5.width / 2, p5.height / 2)
-        );
     }
 
     function windowResized(p5: p5Types) {
@@ -28,14 +25,27 @@ export default function Fireworks() {
     function draw(p5: p5Types) {
         p5.clear();
 
-        firework.update();
-        firework.draw(p5);
-
-        if (!firework.visible()) {
-            firework = new ExplodingFirework(
-                new Vector2d(p5.width / 2, p5.height / 2)
+        if (nextFireworkInFrames-- <= 0) {
+            fireworks.push(
+                new ExplodingFirework(
+                    new Vector2d(
+                        p5.width * Math.random(),
+                        (p5.height / 2) * Math.random()
+                    )
+                )
             );
+
+            nextFireworkInFrames = Math.random() * 15;
         }
+
+        fireworks = fireworks.map((firework) => {
+            firework.update();
+            return firework;
+        });
+
+        fireworks.forEach((firework) => firework.draw(p5));
+
+        fireworks = fireworks.filter((firework) => firework.visible());
     }
 
     return <Sketch setup={setup} windowResized={windowResized} draw={draw} />;
