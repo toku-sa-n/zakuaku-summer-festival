@@ -10,17 +10,26 @@ export default function Fireworks() {
         { ssr: false }
     );
 
-    let particle: Particle;
+    let particles: Particle[] = [];
 
     function setup(p5: p5Types, canvasParentRef: Element) {
         p5.createCanvas(p5.windowWidth, p5.windowHeight);
         p5.frameRate(fps);
 
-        particle = new Particle(
-            new Vector2d(p5.width / 2, p5.height / 2),
-            new Vector2d(p5.width / 2 + 500, p5.height / 2),
-            10
-        );
+        particles = Array.from(Array(100), () => {
+            let x = Math.random() * 1000 - 500;
+            let y = Math.random() * 1000 - 500;
+
+            return new Vector2d(x, y);
+        })
+            .filter((v) => v.x * v.x + v.y * v.y < 500 * 500)
+            .map((v) => {
+                return new Particle(
+                    new Vector2d(p5.width / 2, p5.height / 2),
+                    new Vector2d(v.x + p5.width / 2, v.y + p5.height / 2),
+                    3
+                );
+            });
     }
 
     function windowResized(p5: p5Types) {
@@ -30,9 +39,12 @@ export default function Fireworks() {
     function draw(p5: p5Types) {
         p5.clear();
 
-        particle.update();
+        particles.map((particle) => {
+            particle.update();
+            particle.draw(p5);
 
-        particle.draw(p5);
+            return particle;
+        });
     }
 
     return <Sketch setup={setup} windowResized={windowResized} draw={draw} />;
