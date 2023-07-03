@@ -11,7 +11,11 @@ export default function Fireworks() {
         p5.createCanvas(p5.windowWidth, p5.windowHeight);
     }
 
+    function windowResized(p5: p5Types) {
+        p5.resizeCanvas(p5.windowWidth, p5.windowHeight);
+    }
+
     function draw(p5: p5Types) {}
 
-    return <Sketch setup={setup} draw={draw} />;
+    return <Sketch setup={setup} windowResized={windowResized} draw={draw} />;
 }
