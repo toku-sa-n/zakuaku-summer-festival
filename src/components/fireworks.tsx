@@ -94,6 +94,7 @@ class Particle {
     }
 
     draw(p5: p5Types) {
+        p5.noStroke();
         p5.fill(p5.color(this.color[0], this.color[1], this.color[2]));
         p5.ellipse(
             this.coordInPixels.x,
