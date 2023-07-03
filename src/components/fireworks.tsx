@@ -10,13 +10,34 @@ export default function Fireworks() {
         { ssr: false }
     );
 
-    let particles: Particle[] = [];
+    let firework: ExplodingFirework;
 
     function setup(p5: p5Types, canvasParentRef: Element) {
         p5.createCanvas(p5.windowWidth, p5.windowHeight);
         p5.frameRate(fps);
 
-        particles = Array.from(Array(100), () => {
+        firework = new ExplodingFirework(p5);
+    }
+
+    function windowResized(p5: p5Types) {
+        p5.resizeCanvas(p5.windowWidth, p5.windowHeight);
+    }
+
+    function draw(p5: p5Types) {
+        p5.clear();
+
+        firework.update();
+        firework.draw(p5);
+    }
+
+    return <Sketch setup={setup} windowResized={windowResized} draw={draw} />;
+}
+
+class ExplodingFirework {
+    private particles: Particle[];
+
+    constructor(p5: p5Types) {
+        this.particles = Array.from(Array(100), () => {
             let x = Math.random() * 1000 - 500;
             let y = Math.random() * 1000 - 500;
 
@@ -32,24 +53,19 @@ export default function Fireworks() {
             });
     }
 
-    function windowResized(p5: p5Types) {
-        p5.resizeCanvas(p5.windowWidth, p5.windowHeight);
+    update() {
+        this.particles = this.particles
+            .map((particle) => {
+                particle.update();
+                return particle;
+            })
+            .filter((particle) => particle.visible());
     }
 
-    function draw(p5: p5Types) {
-        p5.clear();
-
-        particles.map((particle) => {
-            particle.update();
-            particle.draw(p5);
-
-            return particle;
-        });
+    draw(p5: p5Types) {
+        this.particles.forEach((particle) => particle.draw(p5));
     }
-
-    return <Sketch setup={setup} windowResized={windowResized} draw={draw} />;
 }
-
 class Particle {
     private coordInPixels: Vector2d;
     private velocityInPixelsPerSeconds: Vector2d;
@@ -85,6 +101,10 @@ class Particle {
         this.initialSize = this.size;
         this.diminishTime = Math.random() * 1 + 3;
         this.opacity = 255;
+    }
+
+    visible(): boolean {
+        return this.opacity > 0 && this.size > 0;
     }
 
     update() {
