@@ -61,21 +61,11 @@ class ExplodingFirework {
             Math.random() * 100 + 155,
         ];
 
-        this.particles = Array.from(Array(300), () => {
-            let x = Math.random() * 1000 - 500;
-            let y = Math.random() * 1000 - 500;
-
-            return new Vector2d(x, y);
-        })
-            .filter((v) => v.x * v.x + v.y * v.y < 500 * 500)
-            .map((v) => {
-                return new Particle(
-                    structuredClone(center),
-                    new Vector2d(v.x + center.x, v.y + center.y),
-                    1,
-                    color
-                );
-            });
+        this.particles = particlesForCircleFireworks(
+            center,
+            Math.random() * 400 + 100,
+            color
+        );
     }
 
     visible(): boolean {
@@ -185,4 +175,26 @@ class Vector2d {
         this.x = x;
         this.y = y;
     }
+}
+
+function particlesForCircleFireworks(
+    center: Vector2d,
+    radius: number,
+    color: [number, number, number]
+): Particle[] {
+    return Array.from(Array(300), () => {
+        let x = Math.random() * radius * 2 - radius;
+        let y = Math.random() * radius * 2 - radius;
+
+        return new Vector2d(x, y);
+    })
+        .filter((v) => v.x * v.x + v.y * v.y < radius * radius)
+        .map((v) => {
+            return new Particle(
+                structuredClone(center),
+                new Vector2d(v.x + center.x, v.y + center.y),
+                1,
+                color
+            );
+        });
 }
