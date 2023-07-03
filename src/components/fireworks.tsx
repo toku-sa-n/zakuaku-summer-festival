@@ -54,7 +54,10 @@ class Particle {
     private coordInPixels: Vector2d;
     private velocityInPixelsPerSeconds: Vector2d;
     private color: [number, number, number];
+    private initialSize: number;
     private size: number;
+    private diminishTime: number;
+    private opacity: number;
 
     constructor(
         srcCoordInPixels: Vector2d,
@@ -79,6 +82,9 @@ class Particle {
         ];
 
         this.size = Math.random() * 10 + 5;
+        this.initialSize = this.size;
+        this.diminishTime = Math.random() * 1 + 3;
+        this.opacity = 255;
     }
 
     update() {
@@ -91,11 +97,25 @@ class Particle {
 
         this.velocityInPixelsPerSeconds.y +=
             gravityInPixelsPerSecondsSquad * frameInSecond;
+
+        this.size -= (this.initialSize * frameInSecond) / this.diminishTime;
+
+        if (this.size < 0) {
+            this.size = 0;
+        }
+
+        this.opacity -= (255 * frameInSecond) / this.diminishTime;
+
+        if (this.opacity < 0) {
+            this.opacity = 0;
+        }
     }
 
     draw(p5: p5Types) {
         p5.noStroke();
-        p5.fill(p5.color(this.color[0], this.color[1], this.color[2]));
+        p5.fill(
+            p5.color(this.color[0], this.color[1], this.color[2], this.opacity)
+        );
         p5.ellipse(
             this.coordInPixels.x,
             this.coordInPixels.y,
