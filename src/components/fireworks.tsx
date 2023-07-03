@@ -28,6 +28,10 @@ export default function Fireworks() {
 
         firework.update();
         firework.draw(p5);
+
+        if (!firework.visible()) {
+            firework = new ExplodingFirework(p5);
+        }
     }
 
     return <Sketch setup={setup} windowResized={windowResized} draw={draw} />;
@@ -37,7 +41,7 @@ class ExplodingFirework {
     private particles: Particle[];
 
     constructor(p5: p5Types) {
-        this.particles = Array.from(Array(100), () => {
+        this.particles = Array.from(Array(300), () => {
             let x = Math.random() * 1000 - 500;
             let y = Math.random() * 1000 - 500;
 
@@ -48,9 +52,13 @@ class ExplodingFirework {
                 return new Particle(
                     new Vector2d(p5.width / 2, p5.height / 2),
                     new Vector2d(v.x + p5.width / 2, v.y + p5.height / 2),
-                    3
+                    1
                 );
             });
+    }
+
+    visible(): boolean {
+        return this.particles.length > 0;
     }
 
     update() {
@@ -66,6 +74,7 @@ class ExplodingFirework {
         this.particles.forEach((particle) => particle.draw(p5));
     }
 }
+
 class Particle {
     private coordInPixels: Vector2d;
     private velocityInPixelsPerSeconds: Vector2d;
@@ -117,6 +126,11 @@ class Particle {
 
         this.velocityInPixelsPerSeconds.y +=
             gravityInPixelsPerSecondsSquad * frameInSecond;
+
+        this.velocityInPixelsPerSeconds.x -=
+            this.velocityInPixelsPerSeconds.x * frameInSecond * 2;
+        this.velocityInPixelsPerSeconds.y -=
+            this.velocityInPixelsPerSeconds.y * frameInSecond * 2;
 
         this.size -= (this.initialSize * frameInSecond) / this.diminishTime;
 
