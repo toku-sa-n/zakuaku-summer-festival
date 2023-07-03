@@ -16,7 +16,9 @@ export default function Fireworks() {
         p5.createCanvas(p5.windowWidth, p5.windowHeight);
         p5.frameRate(fps);
 
-        firework = new ExplodingFirework(p5);
+        firework = new ExplodingFirework(
+            new Vector2d(p5.width / 2, p5.height / 2)
+        );
     }
 
     function windowResized(p5: p5Types) {
@@ -40,7 +42,7 @@ export default function Fireworks() {
 class ExplodingFirework {
     private particles: Particle[];
 
-    constructor(p5: p5Types) {
+    constructor(center: Vector2d) {
         const color: [number, number, number] = [
             Math.random() * 100 + 155,
             Math.random() * 100 + 155,
@@ -56,8 +58,8 @@ class ExplodingFirework {
             .filter((v) => v.x * v.x + v.y * v.y < 500 * 500)
             .map((v) => {
                 return new Particle(
-                    new Vector2d(p5.width / 2, p5.height / 2),
-                    new Vector2d(v.x + p5.width / 2, v.y + p5.height / 2),
+                    structuredClone(center),
+                    new Vector2d(v.x + center.x, v.y + center.y),
                     1,
                     color
                 );
