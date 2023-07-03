@@ -15,7 +15,7 @@ export default function Fireworks() {
         p5.createCanvas(p5.windowWidth, p5.windowHeight);
         p5.frameRate(fps);
 
-        particle = new Particle(p5.width / 2, p5.height / 2);
+        particle = new Particle(new Vector2d(p5.width / 2, p5.height / 2));
     }
 
     function windowResized(p5: p5Types) {
@@ -34,20 +34,28 @@ export default function Fireworks() {
 }
 
 class Particle {
-    private x: number;
-    private y: number;
+    private coord: Vector2d;
+
+    constructor(coord: Vector2d) {
+        this.coord = coord;
+    }
+
+    update() {
+        this.coord.x += 1;
+        this.coord.y += 1;
+    }
+
+    draw(p5: p5Types) {
+        p5.ellipse(this.coord.x, this.coord.y, 10, 10);
+    }
+}
+
+class Vector2d {
+    x: number;
+    y: number;
 
     constructor(x: number, y: number) {
         this.x = x;
         this.y = y;
-    }
-
-    update() {
-        this.x += 1;
-        this.y += 1;
-    }
-
-    draw(p5: p5Types) {
-        p5.ellipse(this.x, this.y, 10, 10);
     }
 }
