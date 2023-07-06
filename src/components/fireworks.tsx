@@ -35,7 +35,7 @@ export default function Fireworks() {
                 )
             );
 
-            nextFireworkInFrames = Math.random() * 15;
+            nextFireworkInFrames = Math.random() * fps + fps;
         }
 
         fireworks = fireworks.map((firework) => {
