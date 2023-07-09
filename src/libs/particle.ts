@@ -1,6 +1,6 @@
+import p5Types from "p5";
 import { fps, gravityInPixelsPerSecondsSquad } from "./consts";
 import Vector2d from "./vector2d";
-import p5Types from "p5";
 
 export default class Particle {
     private coordInPixels: Vector2d;
