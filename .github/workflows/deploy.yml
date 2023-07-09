@@ -70,7 +70,9 @@ jobs:
       - name: Show Prettier version
         run: npx prettier --version
       - name: Run Prettier
-        run: npx prettier --check .
+        run: |
+          cat next.config.js
+          npx prettier --check .
       - name: Build with Next.js
         run: npx --no-install next build
       - name: Upload artifact
