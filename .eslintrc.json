@@ -1,3 +1,53 @@
 {
-  "extends": "next/core-web-vitals"
+    "extends": ["airbnb", "next/core-web-vitals", "eslint-config-prettier"],
+    "overrides": [
+        {
+            "files": ["**/*.ts", "**/*.tsx"],
+            "extends": [
+                "airbnb",
+                "airbnb-typescript",
+                "next/core-web-vitals",
+                "eslint-config-prettier"
+            ],
+            "parser": "@typescript-eslint/parser",
+            "parserOptions": {
+                "project": "./tsconfig.json"
+            },
+            "rules": {
+                "@typescript-eslint/no-use-before-define": [
+                    "error",
+                    {
+                        "functions": false
+                    }
+                ],
+                "padding-line-between-statements": "off",
+                "@typescript-eslint/padding-line-between-statements": [
+                    "error",
+                    {
+                        "blankLine": "always",
+                        "prev": ["block", "block-like"],
+                        "next": "*"
+                    },
+                    {
+                        "blankLine": "always",
+                        "prev": "*",
+                        "next": ["block", "block-like"]
+                    }
+                ],
+                "@typescript-eslint/lines-between-class-members": [
+                    "error",
+                    "always",
+                    {
+                        "exceptAfterSingleLine": true
+                    }
+                ],
+                "@typescript-eslint/no-unused-vars": [
+                    "error",
+                    {
+                        "argsIgnorePattern": "^_"
+                    }
+                ]
+            }
+        }
+    ]
 }
