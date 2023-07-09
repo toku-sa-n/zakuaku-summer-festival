@@ -7,7 +7,9 @@ const gravityInPixelsPerSecondsSquad = 98 as const;
 export default function Fireworks() {
     const Sketch = dynamic(
         () => import("react-p5").then((mod) => mod.default),
-        { ssr: false }
+        {
+            ssr: false,
+        },
     );
 
     let fireworks: ExplodingFirework[] = [];
@@ -30,9 +32,9 @@ export default function Fireworks() {
                 new ExplodingFirework(
                     new Vector2d(
                         p5.width * Math.random(),
-                        (p5.height / 2) * Math.random()
-                    )
-                )
+                        (p5.height / 2) * Math.random(),
+                    ),
+                ),
             );
 
             nextFireworkInFrames = Math.random() * fps + fps;
@@ -64,7 +66,7 @@ class ExplodingFirework {
         this.particles = particlesForCircleFireworks(
             center,
             Math.random() * 400 + 100,
-            color
+            color,
         );
     }
 
@@ -99,7 +101,7 @@ class Particle {
         srcCoordInPixels: Vector2d,
         dstCoordInPixels: Vector2d,
         arriveDstInSeconds: number,
-        color: [number, number, number]
+        color: [number, number, number],
     ) {
         this.coordInPixels = srcCoordInPixels;
         this.velocityInPixelsPerSeconds = new Vector2d(
@@ -109,7 +111,7 @@ class Particle {
                 gravityInPixelsPerSecondsSquad *
                     arriveDstInSeconds *
                     arriveDstInSeconds) /
-                (2 * arriveDstInSeconds)
+                (2 * arriveDstInSeconds),
         );
 
         this.color = color;
@@ -156,13 +158,13 @@ class Particle {
     draw(p5: p5Types) {
         p5.noStroke();
         p5.fill(
-            p5.color(this.color[0], this.color[1], this.color[2], this.opacity)
+            p5.color(this.color[0], this.color[1], this.color[2], this.opacity),
         );
         p5.ellipse(
             this.coordInPixels.x,
             this.coordInPixels.y,
             this.size,
-            this.size
+            this.size,
         );
     }
 }
@@ -180,7 +182,7 @@ class Vector2d {
 function particlesForCircleFireworks(
     center: Vector2d,
     radius: number,
-    color: [number, number, number]
+    color: [number, number, number],
 ): Particle[] {
     return Array.from(Array(300), () => {
         let x = Math.random() * radius * 2 - radius;
@@ -194,7 +196,7 @@ function particlesForCircleFireworks(
                 structuredClone(center),
                 new Vector2d(v.x + center.x, v.y + center.y),
                 1,
-                color
+                color,
             );
         });
 }
