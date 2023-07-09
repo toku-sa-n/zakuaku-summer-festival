@@ -77,7 +77,7 @@ jobs:
       - name: Remove `svgo.config.js`
         run: rm -f svgo.config.js
       - name: Optimize SVGs
-        run: svgo --config=svgo.config.js --folder=public --multipass
+        run: svgo --folder=public --multipass
 
       - name: Build with Next.js
         run: npx --no-install next build
