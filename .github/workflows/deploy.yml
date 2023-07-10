@@ -132,7 +132,7 @@ jobs:
       - name: Install SVGO
         run: npm install -g svgo
       - name: Check if SVGs are compressed
-        run: find ./**/*.svg -print0 | xargs -0 -I {} bash -c '[ $(svgo --output - --multipass {} | wc -c) -eq $(wc -c < {}) ] || {echo "Run `svgo --multipass {}` to optimize it."; false;}'
+        run: find ./**/*.svg -print0 | xargs -0 -I {} bash -c '[ $(svgo --output - --multipass {} | wc -c) -eq $(wc -c < {}) ] || {echo "Run `svgo --multipass {}` to optimize it."; false}'
 
   deploy:
     environment:
