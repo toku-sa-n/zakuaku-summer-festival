@@ -23,6 +23,7 @@ export default function Fireworks() {
     const setup = (p5: p5Types, _: Element) => {
         p5.createCanvas(p5.windowWidth, p5.windowHeight);
         p5.frameRate(fps);
+        img.resize(0, p5.height / 2);
     };
 
     const windowResized = (p5: p5Types) => {
@@ -56,7 +57,13 @@ export default function Fireworks() {
 
         fireworks = fireworks.filter((firework) => firework.visible());
 
-        p5.image(img, 0, 0, img.width, img.height);
+        p5.image(
+            img,
+            p5.width / 2 - img.width / 2,
+            p5.height - img.height,
+            img.width,
+            img.height,
+        );
     };
 
     return (
