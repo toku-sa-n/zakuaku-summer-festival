@@ -14,16 +14,10 @@ export default function Fireworks() {
 
     let fireworks: ExplodingFirework[] = [];
     let nextFireworkInFrames = 0;
-    let img: p5Types.Image;
-
-    const preload = (p5: p5Types) => {
-        img = p5.loadImage("derich_and_rosemary.svg");
-    };
 
     const setup = (p5: p5Types, _: Element) => {
         p5.createCanvas(p5.windowWidth, p5.windowHeight);
         p5.frameRate(fps);
-        img.resize(0, p5.height / 2);
     };
 
     const windowResized = (p5: p5Types) => {
@@ -56,22 +50,7 @@ export default function Fireworks() {
         fireworks.forEach((firework) => firework.draw(p5));
 
         fireworks = fireworks.filter((firework) => firework.visible());
-
-        p5.image(
-            img,
-            p5.width / 2 - img.width / 2,
-            p5.height - img.height,
-            img.width,
-            img.height,
-        );
     };
 
-    return (
-        <Sketch
-            preload={preload}
-            setup={setup}
-            windowResized={windowResized}
-            draw={draw}
-        />
-    );
+    return <Sketch setup={setup} windowResized={windowResized} draw={draw} />;
 }
