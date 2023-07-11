@@ -11,8 +11,8 @@
 実行にはNode.jsが必要です．
 
 ```bash
-git clone https://github.com/toku-sa-n/zakuaq-summer-festival.git
-cd zakuaq-summer-festival
+git clone https://github.com/toku-sa-n/zakuaku-summer-festival.git
+cd zakuaku-summer-festival
 npm install
 npm run dev
 ```
