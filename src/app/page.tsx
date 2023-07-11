@@ -1,7 +1,8 @@
 "use client";
 
+/* eslint-disable @next/next/no-img-element */
+
 import Fireworks from "@/components/fireworks";
-import Image from "next/image";
 
 export default function Home() {
     // It does not seem that p5js can render SVGs well. Rendering SVGs via p5js
@@ -9,10 +10,12 @@ export default function Home() {
     // them.
     //
     // See https://github.com/processing/p5.js/issues/3274.
+    //
+    // XXX: For some reasons, the SVG is not rendered properly if we use `Image` from "next/image".
     return (
         <>
             <Fireworks />
-            <Image
+            <img
                 src="/derich_and_rosemary.svg"
                 width={0}
                 height={0}
