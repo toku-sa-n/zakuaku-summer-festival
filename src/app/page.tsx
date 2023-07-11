@@ -9,8 +9,6 @@ export default function Home() {
     // them.
     //
     // See https://github.com/processing/p5.js/issues/3274.
-    //
-    // XXX: For some reasons, the SVG is not rendered properly if we use `Image` from "next/image".
     return (
         <>
             <Fireworks />
